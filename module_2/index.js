@@ -1,6 +1,7 @@
 // core module
 const http = require('http');
 const url = require('url');
+const fs = require('fs');
 
 // third party module underscore
 const _= require('underscore');
@@ -37,7 +38,38 @@ const server = http.createServer((req, res) => {
     const address_url = 'http://localhost:3000/about?name=Tusar&country=Bangladesh';
     const parsed_url = url.parse(address_url, true);
     const query = parsed_url.query;
-    console.log(query);
+    // console.log(query);
+
+    if(req.url === '/md'){
+        // asynchronous
+        // fs.readFile('temp.md', (err, data) => {
+        //     if(err){
+        //         res.write("Failed");
+        //         res.end();
+        //     }
+        //     else{
+        //         res.write(data);
+        //         res.end();
+        //     }
+        // })
+
+        // synchronous
+        // const data = fs.readFileSync('temp.md');
+        // res.write(data);
+        // res.end();
+
+        // write asynchronous
+        fs.writeFile('newData.text', 'hello world', (err) => {
+            if(err){
+                res.write("Failed");
+                res.end();
+            }
+            else{
+                res.write('data file create successfully');
+                res.end();
+            }
+        })
+    }
 })
 server.listen(PORT);
 console.log(`server is running at port ${PORT}`);
